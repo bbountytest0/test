@@ -1,0 +1,21 @@
+name: Workflow
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  insecure-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout pull request code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # Step 2: Run index.sh from the pull request's code
+      - name: Execute index.sh
+        run: |
+          chmod +x ./index.sh
+          ./index.sh
